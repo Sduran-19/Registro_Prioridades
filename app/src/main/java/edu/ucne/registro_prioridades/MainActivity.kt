@@ -106,7 +106,7 @@ class MainActivity : ComponentActivity() {
                     value = descripcion,
                     onValueChange = {
                         descripcion = it
-                        errorMessage = ""  // Limpiar mensaje de error al cambiar texto
+                        errorMessage = ""
                     }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -117,7 +117,7 @@ class MainActivity : ComponentActivity() {
                     value = diasCompromiso,
                     onValueChange = {
                         diasCompromiso = it
-                        errorMessage = ""  // Limpiar mensaje de error al cambiar texto
+                        errorMessage = ""
                     }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -141,6 +141,12 @@ class MainActivity : ComponentActivity() {
                                 return@launch
                             }
 
+                            val diasCompromisoInt = diasCompromiso.toIntOrNull()
+                            if (diasCompromisoInt == null || diasCompromisoInt <= 0) {
+                                errorMessage = "Los días de compromiso deben ser un número mayor que 0."
+                                return@launch
+                            }
+
                             val prioridadExistente = prioridadDb.prioridadDao().findByDescripcion(descripcion)
                             if (prioridadExistente != null) {
                                 errorMessage = "Ya existe una prioridad con esta descripción."
@@ -149,12 +155,13 @@ class MainActivity : ComponentActivity() {
 
                             val nuevaPrioridad = PrioridadEntity(
                                 descripcion = descripcion,
-                                diasCompromiso = diasCompromiso.toIntOrNull() ?: 0
+                                diasCompromiso = diasCompromisoInt
                             )
                             prioridadDb.prioridadDao().save(nuevaPrioridad)
                             descripcion = ""
                             diasCompromiso = ""
                         }
+
                     }
                 ) {
                     Text(text = "Guardar")
@@ -265,7 +272,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun GreetingPreview() {
         Registro_PrioridadesTheme {
-            //PrioridadScreen()
+
         }
     }
 }
