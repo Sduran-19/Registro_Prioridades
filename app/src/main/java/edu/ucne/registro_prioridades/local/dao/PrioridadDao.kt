@@ -10,20 +10,26 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PrioridadDao {
-    @Upsert
+    @Upsert()
     suspend fun save(prioridad: PrioridadEntity)
 
-    @Query("SELECT * FROM Prioridades WHERE prioridadId = :id LIMIT 1")
+    @Query(
+        """
+            Select *
+            From Prioridades
+            where prioridadId = :id
+            Limit 1
+        """
+    )
     suspend fun find(id: Int): PrioridadEntity?
 
     @Delete
     suspend fun delete(prioridad: PrioridadEntity)
 
-    @Query("SELECT * FROM Prioridades")
+    @Query("Select * From Prioridades")
     fun getAll(): Flow<List<PrioridadEntity>>
 
-    // Método para buscar una prioridad por su descripción
-    @Query("SELECT * FROM Prioridades WHERE descripcion = :descripcion LIMIT 1")
+    @Query("SELECT * FROM Prioridades WHERE descripcion LIKE :descripcion")
     suspend fun findByDescripcion(descripcion: String): PrioridadEntity?
 }
 
