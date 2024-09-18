@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp") version "2.0.0-1.0.23"
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.kotlinx.serialization)
@@ -17,6 +17,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -60,12 +61,19 @@ dependencies {
 
     //room
     implementation("androidx.room:room-runtime:2.6.1")
-    implementation(libs.transportation.consumer)
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     ksp("androidx.room:room-compiler:2.6.1")
 
+
+
+
     //optional
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.compose.material3:material3:1.1.0-alpha02")
+    implementation ("androidx.compose.material:material:1.4.0")
+    implementation("androidx.compose.material:material:1.3.1") // Usa la última versión
+
+
 
     //Hilt
     implementation("com.google.dagger:hilt-android:2.51")

@@ -4,40 +4,57 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
 import dagger.hilt.android.AndroidEntryPoint
-import edu.ucne.registro_prioridades.local.entities.PrioridadEntity
-import edu.ucne.registro_prioridades.presentation.navigation.PrioridadNavHost
-import edu.ucne.registro_prioridades.ui.theme.PrioridadesTheme
+import edu.ucne.registro_prioridades.presentation.navigation.registro_prioridadesNavHost
 
 @AndroidEntryPoint
+
 class MainActivity : ComponentActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
-            PrioridadesTheme {
+            Registro_PrioridadesTheme {
                 val navHost = rememberNavController()
-                PrioridadNavHost(navHost)
+                val items = NavigationItems()
+                registro_prioridadesNavHost(navHostController = navHost, items = items)
+
             }
         }
     }
 
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun PrioridadScreenPreview() {
-        var prioridadList: List<PrioridadEntity> = listOf(
-            PrioridadEntity(1, "Alta", 10),
-            PrioridadEntity(2, "Media", 5),
-            PrioridadEntity(3, "Baja", 1)
-        )
-        PrioridadesTheme {
 
-        }
-    }
 }
 
+fun NavigationItems() : List<NavigationItem> {
+    return listOf(
+        NavigationItem(
+            title = "Prioridades",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info,
+
+            ),
+        NavigationItem(
+            title = "Tickets",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Build,
+        )
+    )
+}
+
+@Composable
+fun Registro_PrioridadesTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+        content = content
+    )
+}
