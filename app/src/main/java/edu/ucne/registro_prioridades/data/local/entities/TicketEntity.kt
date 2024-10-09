@@ -3,18 +3,20 @@ package edu.ucne.registro_prioridades.data.local.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ForeignKey
+import androidx.room.Index
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Entity(tableName = "Tickets",
+@Entity(
+    tableName = "Tickets",
     foreignKeys = [
         ForeignKey(
             entity = PrioridadEntity::class,
             parentColumns = ["prioridadId"],
             childColumns = ["prioridadId"]
         )
-
-    ]
+    ],
+    indices = [Index(value = ["prioridadId"])]
 )
 data class TicketEntity (
     @PrimaryKey
@@ -24,6 +26,4 @@ data class TicketEntity (
     val cliente: String = "",
     val asunto: String = "",
     val descripcion: String = ""
-
-
 )
