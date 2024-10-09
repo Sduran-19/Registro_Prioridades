@@ -4,29 +4,29 @@ package edu.ucne.registro_prioridades.presentation.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Person // Puedes cambiar el icono si lo deseas
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import edu.ucne.composeregistro_prioridades.presentation.cliente.ClienteScreen
+import edu.ucne.composeregistroprioridadesap2.presentation.cliente.ClienteListScreen
+import edu.ucne.composeregistroprioridadesap2.presentation.sistema.SistemaListScreen
+import edu.ucne.composeregistroprioridadesap2.presentation.sistema.SistemaScreen
 import edu.ucne.registro_prioridades.NavigationItem
 import edu.ucne.registro_prioridades.presentation.prioridad.*
 import edu.ucne.registro_prioridades.presentation.ticket.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -36,9 +36,7 @@ fun registro_prioridadesNavHost(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var selectedItem by rememberSaveable {
-        mutableStateOf(0)
-    }
+    var selectedItem by rememberSaveable { mutableStateOf(0) }
 
     ModalNavigationDrawer(
         drawerContent = {
@@ -47,7 +45,7 @@ fun registro_prioridadesNavHost(
             ) {
                 DrawerHeader(
                     modifier = Modifier.padding(16.dp),
-                    text = "Registro Prioridades"
+                    text = "Registros"
                 )
 
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
@@ -56,6 +54,8 @@ fun registro_prioridadesNavHost(
                     val icon = when (navigationItem.title) {
                         "Prioridades" -> Icons.Filled.AddCircle
                         "Tickets" -> Icons.Filled.AddCircle
+                        "Sistemas" -> Icons.Filled.List
+                        "Clientes" -> Icons.Filled.AccountCircle
                         else -> Icons.Filled.AccountCircle
                     }
 
@@ -78,10 +78,7 @@ fun registro_prioridadesNavHost(
                         onClick = {
                             scope.launch { drawerState.close() }
                             selectedItem = index
-                            when (navigationItem.title) {
-                                "Prioridades" -> navHostController.navigate(ScreenPrioridades.PrioridadesList)
-                                "Tickets" -> navHostController.navigate(ScreenPrioridades.TicketsList)
-                            }
+                            navigateToScreen(navigationItem.title, navHostController)
                         },
                         colors = NavigationDrawerItemDefaults.colors(
                             unselectedContainerColor = Color.Transparent,
@@ -127,6 +124,56 @@ fun registro_prioridadesNavHost(
                     }
                 )
             }
+            composable<ScreenPrioridades.ClienteList> {
+                ClienteListScreen(
+                    drawerState = drawerState,
+                    scope = scope,
+                    onCreateCliente = {
+                        navHostController.navigate(ScreenPrioridades.Clientes(0))
+                    },
+                    onEditCliente = { clienteId ->
+                        navHostController.navigate(ScreenPrioridades.EditCliente(clienteId))
+                    },
+                    onDeleteCliente = { clienteId ->
+                        navHostController.navigate(ScreenPrioridades.DeleteCliente(clienteId))
+                    }
+                )
+            }
+            composable<ScreenPrioridades.SistemaList> {
+                SistemaListScreen(
+                    drawerState = drawerState,
+                    scope = scope,
+                    onCreateSistema = {
+                        navHostController.navigate(ScreenPrioridades.Sistemas(0))
+                    },
+                    onEditSistema = { sistemaId ->
+                        navHostController.navigate(ScreenPrioridades.EditSistema(sistemaId))
+                    },
+                    onDeleteSistema = { sistemaId ->
+                        navHostController.navigate(ScreenPrioridades.DeleteSistema(sistemaId))
+                    }
+                )
+            }
+
+            composable<ScreenPrioridades.Clientes> { argumento ->
+                val clienteId = argumento.toRoute<ScreenPrioridades.Clientes>().clienteId
+                ClienteScreen(
+                    goClientes = {
+                        navHostController.navigate(ScreenPrioridades.ClienteList)
+                    }
+                )
+            }
+
+            composable<ScreenPrioridades.Sistemas> { argumento ->
+                val sistemaId = argumento.toRoute<ScreenPrioridades.Sistemas>().sistemaId
+                SistemaScreen(
+                    sistemaId = sistemaId,
+                    goSistemas = {
+                        navHostController.navigate(ScreenPrioridades.SistemaList)
+                    }
+                )
+            }
+
             composable<ScreenPrioridades.Prioridades> {
                 val args = it.toRoute<ScreenPrioridades.Prioridades>()
                 PrioridadScreen(
@@ -143,6 +190,7 @@ fun registro_prioridadesNavHost(
                     }
                 )
             }
+
             composable<ScreenPrioridades.EditPrioridad> {
                 val args = it.toRoute<ScreenPrioridades.EditPrioridad>()
                 EditPrioridadScreen(
@@ -183,8 +231,15 @@ fun registro_prioridadesNavHost(
     }
 }
 
-
-
+// Función para navegar según el título
+private fun navigateToScreen(title: String, navHostController: NavHostController) {
+    when (title) {
+        "Prioridades" -> navHostController.navigate(ScreenPrioridades.PrioridadesList)
+        "Tickets" -> navHostController.navigate(ScreenPrioridades.TicketsList)
+        "Sistemas" -> navHostController.navigate(ScreenPrioridades.SistemaList)
+        "Clientes" -> navHostController.navigate(ScreenPrioridades.ClienteList)
+    }
+}
 
 @Composable
 fun DrawerHeader(

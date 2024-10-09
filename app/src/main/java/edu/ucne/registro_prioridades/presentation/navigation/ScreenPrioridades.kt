@@ -26,9 +26,31 @@ sealed class ScreenPrioridades {
 
     @Serializable
     data class DeleteTicket(val ticketId: Int) : ScreenPrioridades()
+
+    @Serializable
+    data object SistemaList : ScreenPrioridades()
+
+    @Serializable
+    data class Sistemas(val sistemaId: Int) : ScreenPrioridades()
+
+    @Serializable
+    data class EditSistema(val sistemaId: Int) : ScreenPrioridades()
+
+    @Serializable
+    data class DeleteSistema(val sistemaId: Int) : ScreenPrioridades()
+
+    @Serializable
+    data object ClienteList : ScreenPrioridades()
+
+    @Serializable
+    data class Clientes(val clienteId: Int) : ScreenPrioridades()
+
+    @Serializable
+    data class EditCliente(val clienteId: Int) : ScreenPrioridades()
+
+    @Serializable
+    data class DeleteCliente(val clienteId: Int) : ScreenPrioridades()
+
     @Serializable
     data object HomeScreen : ScreenPrioridades()
-
-
-
 }

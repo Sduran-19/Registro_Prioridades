@@ -131,7 +131,7 @@ fun PrioridadRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp), // Padding interno del Card
+                .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
