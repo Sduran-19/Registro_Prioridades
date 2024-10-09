@@ -34,6 +34,7 @@ fun ClienteScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClienteBodyScreen(
     uiState: ClienteViewModel.UiState,
