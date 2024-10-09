@@ -5,9 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.List
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
@@ -48,6 +52,17 @@ fun NavigationItems() : List<NavigationItem> {
             title = "Tickets",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Build,
+        ),
+
+        NavigationItem(
+            title = "Sistemas",
+            selectedIcon = Icons.Filled.List,
+            unselectedIcon = Icons.Outlined.List,
+        ),
+        NavigationItem(
+            title = "Clientes",
+            selectedIcon = Icons.Filled.Face,
+            unselectedIcon = Icons.Outlined.Face,
         )
     )
 }

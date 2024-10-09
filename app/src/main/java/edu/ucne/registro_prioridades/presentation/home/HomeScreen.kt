@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -92,6 +91,25 @@ fun HomeScreen(
                     route = ScreenPrioridades.TicketsList.toString(),
                     navController = navHostController
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                CardHome(
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = "Lista de Sistemas",
+                    title = "Lista de Sistemas",
+                    route = ScreenPrioridades.SistemaList.toString(),
+                    navController = navHostController
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                CardHome(
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = "Lista de Clientes",
+                    title = "Lista de Clientes",
+                    route = ScreenPrioridades.SistemaList.toString(),
+                    navController = navHostController
+                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
